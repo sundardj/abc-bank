@@ -35,6 +35,12 @@ A dummy application for a bank; should provide various functions of a retail ban
 
 ### Additional Features
 
+Following additional features are implemented* and tested with the following test cases
+maxi_savings_account_withNoWithdrawal()
+maxi_savings_account_withWithdrawal()
+transfer()
+*Since the transactions do not have a date component, check for withdrawal in the last ten days is not carried out and the daily interest accrual is not done. 
+
 * A customer can transfer between their accounts
 * Change **Maxi-Savings accounts** to have an interest rate of 5% assuming no withdrawals in the past 10 days otherwise 0.1%
 * Interest rates should accrue daily (incl. weekends), rates above are per-annum

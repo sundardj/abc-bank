@@ -2,6 +2,10 @@ package com.abc;
 
 import org.junit.Test;
 
+import com.abc.Account;
+import com.abc.Bank;
+import com.abc.Customer;
+
 import static org.junit.Assert.assertEquals;
 
 public class BankTest {
@@ -41,14 +45,41 @@ public class BankTest {
     }
 
     @Test
-    public void maxi_savings_account() {
+    public void maxi_savings_account_withNoWithdrawal() {
         Bank bank = new Bank();
         Account checkingAccount = new Account(Account.MAXI_SAVINGS);
         bank.addCustomer(new Customer("Bill").openAccount(checkingAccount));
 
         checkingAccount.deposit(3000.0);
 
-        assertEquals(170.0, bank.totalInterestPaid(), DOUBLE_DELTA);
+        assertEquals(150.0, bank.totalInterestPaid(), DOUBLE_DELTA);
+    }
+    
+    @Test
+    public void maxi_savings_account_withWithdrawal() {
+        Bank bank = new Bank();
+        Account checkingAccount = new Account(Account.MAXI_SAVINGS);
+        bank.addCustomer(new Customer("Bill").openAccount(checkingAccount));
+
+        checkingAccount.deposit(3000.0);
+        checkingAccount.withdraw(1000.0);
+        
+        assertEquals(2.0, bank.totalInterestPaid(), DOUBLE_DELTA);
+    }
+    
+    @Test
+    public void transfer() {
+        Bank bank = new Bank();
+        Account checkingAccount = new Account(Account.CHECKING);
+        Account savingsAccount = new Account(Account.SAVINGS);
+        bank.addCustomer(new Customer("Bill").openAccount(checkingAccount).openAccount(savingsAccount));
+       
+        checkingAccount.deposit(3000.0);
+        checkingAccount.withdraw(100.0);
+        bank.transfer(500.0, checkingAccount, savingsAccount);
+       
+        assertEquals(2400.0, checkingAccount.sumTransactions(),DOUBLE_DELTA);
+        assertEquals(500.0, savingsAccount.sumTransactions(),DOUBLE_DELTA);
     }
 
 }

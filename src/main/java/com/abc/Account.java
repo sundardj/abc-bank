@@ -45,11 +45,26 @@ public void withdraw(double amount) {
 //                if (amount <= 4000)
 //                    return 20;
             case MAXI_SAVINGS:
-                if (amount <= 1000)
-                    return amount * 0.02;
-                if (amount <= 2000)
-                    return 20 + (amount-1000) * 0.05;
-                return 70 + (amount-2000) * 0.1;
+            	boolean withdrawal=false;
+            	double interestEarned=0;
+            	
+            	// check if any withdrawal has happened
+            	 for (Transaction t :  transactions) {
+            		 if(t.amount <0) {
+            			 withdrawal=true;
+            			 break;
+            		 }
+            	 }
+            	 
+            	 // calculate interest
+            	 if(withdrawal) {
+            		interestEarned=amount * 0.001;
+            	 } else {
+            		 interestEarned=amount * 0.05;
+            	 }
+            	
+            	 return interestEarned;
+                     	
             default:
                 return amount * 0.001;
         }
@@ -69,5 +84,7 @@ public void withdraw(double amount) {
     public int getAccountType() {
         return accountType;
     }
+    
+   
 
 }

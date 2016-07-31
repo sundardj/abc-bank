@@ -43,4 +43,13 @@ public class Bank {
             return "Error";
         }
     }
+    public void transfer(double amount,Account fromAccount,Account toAccount) {
+    	double total = fromAccount.sumTransactions();
+    	if(total<amount) {
+    		throw new IllegalArgumentException("The transfer amount cannot be greater than the available balance");
+    	} else {
+     		fromAccount.withdraw(amount);
+    		toAccount.deposit(amount);
+       	}
+    }
 }
